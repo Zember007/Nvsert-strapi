@@ -33,6 +33,10 @@
       "relation": "oneToMany",
       "target": "api::service.service",
       "mappedBy": "category"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
     }
   }
 }
