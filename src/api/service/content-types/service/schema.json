@@ -45,6 +45,10 @@
       "relation": "manyToOne",
       "target": "api::service-category.service-category",
       "inversedBy": "services"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
     }
   }
 }
