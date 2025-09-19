@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_shared_content_blocks",
+  "info": {
+    "displayName": "Content Block",
+    "icon": "layer-group",
+    "description": "Flexible content block with headings, text, and images"
+  },
+  "options": {},
+  "attributes": {
+    "blockType": {
+      "type": "enumeration",
+      "enum": ["heading", "paragraph", "image", "rich-text"],
+      "required": true,
+      "default": "paragraph"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "headingLevel": {
+      "type": "enumeration",
+      "enum": ["h1", "h2", "h3", "h4", "h5", "h6"],
+      "default": "h2"
+    },
+    "text": {
+      "type": "text"
+    },
+    "richText": {
+      "type": "richtext"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "imageCaption": {
+      "type": "string"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
