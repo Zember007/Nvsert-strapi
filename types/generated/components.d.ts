@@ -1,5 +1,31 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SharedContentBlock extends Struct.ComponentSchema {
+  collectionName: 'components_shared_content_blocks';
+  info: {
+    description: 'Flexible content block with headings, text, and images';
+    displayName: 'Content Block';
+    icon: 'layer-group';
+  };
+  attributes: {
+    blockType: Schema.Attribute.Enumeration<
+      ['heading', 'paragraph', 'image', 'rich-text']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'paragraph'>;
+    heading: Schema.Attribute.String;
+    headingLevel: Schema.Attribute.Enumeration<
+      ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+    > &
+      Schema.Attribute.DefaultTo<'h2'>;
+    image: Schema.Attribute.Media<'images'>;
+    imageCaption: Schema.Attribute.String;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    richText: Schema.Attribute.RichText;
+    text: Schema.Attribute.Text;
+  };
+}
+
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
@@ -65,8 +91,10 @@ export interface SharedSlider extends Struct.ComponentSchema {
 export interface SharedStringItem extends Struct.ComponentSchema {
   collectionName: 'components_shared_string_items';
   info: {
+    description: 'Single string value for repeatable lists';
     displayName: 'String item';
     icon: 'dot-circle';
+    name: 'String item';
   };
   attributes: {
     value: Schema.Attribute.String & Schema.Attribute.Required;
@@ -76,6 +104,7 @@ export interface SharedStringItem extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'shared.content-block': SharedContentBlock;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
