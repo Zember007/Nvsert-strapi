@@ -4,4 +4,4 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreService('api::feedback.feedback');
+export default factories.createCoreService('api::feedback.feedback' as any);
