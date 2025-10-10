@@ -5,10 +5,10 @@
     "singularName": "about",
     "pluralName": "abouts",
     "displayName": "About",
-    "description": "Write about yourself and the content you create"
+    "description": "О компании - информация с SEO и структурированным контентом"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {
     "i18n": {
@@ -17,11 +17,16 @@
   },
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "blocks": {
-      "type": "dynamiczone",
-      "components": ["shared.media", "shared.quote", "shared.rich-text", "shared.slider"]
+    "description": {
+      "type": "text"
+    },
+    "content": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.content-block"
     },
     "seo": {
       "type": "component",
