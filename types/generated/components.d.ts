@@ -8,11 +8,6 @@ export interface SharedContentBlock extends Struct.ComponentSchema {
     icon: 'layer-group';
   };
   attributes: {
-    blockType: Schema.Attribute.Enumeration<
-      ['heading', 'paragraph', 'image', 'rich-text']
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'paragraph'>;
     heading: Schema.Attribute.String;
     headingLevel: Schema.Attribute.Enumeration<
       ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
@@ -26,6 +21,18 @@ export interface SharedContentBlock extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedCta extends Struct.ComponentSchema {
+  collectionName: 'components_shared_ctas';
+  info: {
+    displayName: 'Cta';
+    icon: 'link';
+  };
+
+  attributes: {
+    title: Schema.Attribute.String;
+    description: Schema.Attribute.String;
+  };
+}
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
@@ -105,6 +112,7 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'shared.content-block': SharedContentBlock;
+      'shared.cta': SharedCta;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
