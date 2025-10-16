@@ -12,7 +12,7 @@
       "type": "string",
       "required": true
     },
-    "url": {
+    "description": {
       "type": "string",
       "required": true
     },
