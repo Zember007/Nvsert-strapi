@@ -49,7 +49,8 @@ jobs:
 
             # Restart the application (using pm2 or your chosen method)
             # pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command
+            # Сначала проверим структуру сервиса declaration-gost-r
+            node scripts/check-declaration.js
 
-            node scripts/check-services-v2.js
-
+            # Затем запустим синхронизацию
             npm run sync:service-content

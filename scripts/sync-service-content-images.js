@@ -139,13 +139,11 @@ async function processServiceDocument(doc) {
   }
 
   if (changed) {
-    await strapi
-      .documents('api::service.service')
-      .update({
-        documentId: doc.id || doc.documentId,
-        data: { content: blocks },
-        status: 'published',
-      });
+    console.log(`  -> Updating service ${slug}...`);
+    await strapi.entityService.update('api::service.service', doc.id, {
+      data: { content: blocks },
+    });
+    console.log(`  -> ✅ Updated successfully`);
   }
 
   return changed;
@@ -158,13 +156,10 @@ async function main() {
   app.log.level = 'error';
 
   try {
-    const services = await strapi
-      .documents('api::service.service')
-      .findMany({
-        limit: 10000,
-        locale: 'all',
-        populate: { content: { populate: ['image'] } },
-      });
+    // Use entityService instead of documents() for Strapi 5
+    const services = await strapi.entityService.findMany('api::service.service', {
+      populate: { content: { populate: ['image'] } },
+    });
 
     let updates = 0;
     for (const doc of services) {
