@@ -109,9 +109,6 @@ async function processServiceDocument(doc) {
 
   for (let i = 0; i < blocks.length; i++) {
     const b = { ...blocks[i] };
-    console.log(`  Block ${i + 1}: type=${b.blockType}, order=${b.order}`);
-    
-    if (b.blockType !== 'image') continue;
 
     const n = blockNumber(i);
     console.log(`    -> Looking for image number: ${n}`);

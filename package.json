@@ -10,7 +10,6 @@
     "dev": "strapi develop",
     "develop": "strapi develop",
     "seed:example": "node ./scripts/seed.js",
-    "seed:feedback": "node ./scripts/seed-feedback.js",
     "sync:service-content": "node ./scripts/sync-service-content-images.js",
     "start": "strapi start",
     "strapi": "strapi",
