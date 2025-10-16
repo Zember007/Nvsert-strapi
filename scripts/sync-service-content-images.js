@@ -122,7 +122,13 @@ async function processServiceDocument(doc) {
     console.log(`    -> Found local image: ${localPath}`);
 
     const currentFile = b.image || null;
-    if (!isLocalNewerThanAttached(localPath, currentFile)) continue;
+    console.log(`    -> Current attached file:`, currentFile ? `ID: ${currentFile.id}, updated: ${currentFile.updatedAt}` : 'none');
+    const isNewer = isLocalNewerThanAttached(localPath, currentFile);
+    console.log(`    -> Is local file newer? ${isNewer}`);
+    if (!isNewer) {
+      console.log(`    -> Skipping - attached file is up to date`);
+      continue;
+    }
 
     const fileData = getFileDataFromPath(localPath);
     const baseName = path.basename(localPath, path.extname(localPath));
