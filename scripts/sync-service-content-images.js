@@ -109,6 +109,8 @@ async function processServiceDocument(doc) {
 
   for (let i = 0; i < blocks.length; i++) {
     const b = { ...blocks[i] };
+    console.log(`  Block ${i + 1}: type=${b.blockType}, order=${b.order}`);
+
 
     const n = blockNumber(i);
     console.log(`    -> Looking for image number: ${n}`);
@@ -124,23 +126,43 @@ async function processServiceDocument(doc) {
 
     const fileData = getFileDataFromPath(localPath);
     const baseName = path.basename(localPath, path.extname(localPath));
+    console.log(`    -> Uploading file: ${baseName}`);
     const [uploaded] = await uploadFile(fileData, baseName);
+    console.log(`    -> Uploaded file ID: ${uploaded?.id}, URL: ${uploaded?.url}`);
 
-    b.image = uploaded;
+    b.image = uploaded?.id || uploaded;
     if (!b.imageCaption) {
       b.imageCaption = baseName;
     }
 
     blocks[i] = b;
     changed = true;
+    console.log(`    -> Updated block ${i + 1} with image`);
   }
 
   if (changed) {
     console.log(`  -> Updating service ${slug}...`);
+    console.log(`  -> Blocks to update:`, JSON.stringify(blocks.map(b => ({
+      id: b.id,
+      blockType: b.blockType,
+      order: b.order,
+      hasImage: !!b.image,
+      imageId: b.image?.id || b.image
+    })), null, 2));
+    
     await strapi.entityService.update('api::service.service', doc.id, {
       data: { content: blocks },
     });
     console.log(`  -> ✅ Updated successfully`);
+    
+    // Verify update
+    const updated = await strapi.entityService.findOne('api::service.service', doc.id, {
+      populate: { content: { populate: ['image'] } },
+    });
+    console.log(`  -> Verification - blocks after update:`, updated.content.map(b => ({
+      blockType: b.blockType,
+      hasImage: !!b.image
+    })));
   }
 
   return changed;
