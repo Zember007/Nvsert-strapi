@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_ctas",
+  "info": {
+    "name": "Cta",
+    "icon": "cursor",
+    "displayName": "CTA",
+    "description": "Call to action component"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "style": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary", "outline"],
+      "default": "primary"
+    }
+  }
+}
