@@ -10,7 +10,7 @@
     "dev": "strapi develop",
     "develop": "strapi develop",
     "seed:example": "node ./scripts/seed.js",
-    "sync:service-content": "node ./scripts/sync-service-content-images.js",
+    "sync:service-content": "node ./scripts/sync-service-content-images.js --force",
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",

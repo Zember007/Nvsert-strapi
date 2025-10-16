@@ -93,7 +93,7 @@ function blockNumber( index) {
   return Math.max(1, n);
 }
 
-async function processServiceDocument(doc) {
+async function processServiceDocument(doc, forceUpdate = false) {
   const slug = doc.slug;
   const locale = doc.locale;
   let changed = false;
@@ -123,11 +123,16 @@ async function processServiceDocument(doc) {
 
     const currentFile = b.image || null;
     console.log(`    -> Current attached file:`, currentFile ? `ID: ${currentFile.id}, updated: ${currentFile.updatedAt}` : 'none');
-    const isNewer = isLocalNewerThanAttached(localPath, currentFile);
-    console.log(`    -> Is local file newer? ${isNewer}`);
-    if (!isNewer) {
-      console.log(`    -> Skipping - attached file is up to date`);
-      continue;
+    
+    if (!forceUpdate) {
+      const isNewer = isLocalNewerThanAttached(localPath, currentFile);
+      console.log(`    -> Is local file newer? ${isNewer}`);
+      if (!isNewer) {
+        console.log(`    -> Skipping - attached file is up to date`);
+        continue;
+      }
+    } else {
+      console.log(`    -> Force update mode - skipping date check`);
     }
 
     const fileData = getFileDataFromPath(localPath);
@@ -180,6 +185,12 @@ async function main() {
   const app = await createStrapi(appContext).load();
   app.log.level = 'error';
 
+  // Check for --force flag
+  const forceUpdate = process.argv.includes('--force');
+  if (forceUpdate) {
+    console.log('⚠️  Force update mode enabled - will update all matching images\n');
+  }
+
   try {
     // Use entityService instead of documents() for Strapi 5
     const services = await strapi.entityService.findMany('api::service.service', {
@@ -188,7 +199,7 @@ async function main() {
 
     let updates = 0;
     for (const doc of services) {
-      const changed = await processServiceDocument(doc);
+      const changed = await processServiceDocument(doc, forceUpdate);
       if (changed) updates++;
     }
 
