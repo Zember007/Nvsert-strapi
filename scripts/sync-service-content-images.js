@@ -161,10 +161,14 @@ async function processServiceDocument(doc, forceUpdate = false) {
       imageId: b.image?.id || b.image
     })), null, 2));
     
+    // Update content and publish
     await strapi.entityService.update('api::service.service', doc.id, {
-      data: { content: blocks },
+      data: { 
+        content: blocks,
+        publishedAt: new Date() // Publish the service
+      },
     });
-    console.log(`  -> ✅ Updated successfully`);
+    console.log(`  -> ✅ Updated and published successfully`);
     
     // Verify update
     const updated = await strapi.entityService.findOne('api::service.service', doc.id, {
@@ -174,6 +178,7 @@ async function processServiceDocument(doc, forceUpdate = false) {
       blockType: b.blockType,
       hasImage: !!b.image
     })));
+    console.log(`  -> Published at: ${updated.publishedAt || 'Still draft'}`);
   }
 
   return changed;
