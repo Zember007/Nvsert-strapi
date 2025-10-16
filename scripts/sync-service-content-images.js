@@ -88,8 +88,8 @@ function isLocalNewerThanAttached(localFilePath, attachedFile) {
   }
 }
 
-function blockNumber(block, index) {
-  const n = Number.isFinite(block?.order) ? Number(block.order) : index + 1;
+function blockNumber( index) {
+  const n = index + 1;
   return Math.max(1, n);
 }
 
@@ -99,15 +99,28 @@ async function processServiceDocument(doc) {
   let changed = false;
 
   const blocks = Array.isArray(doc.content) ? [...doc.content] : [];
-  if (!blocks.length) return false;
+  if (!blocks.length) {
+    console.log(`  [${slug}] No content blocks found`);
+    return false;
+  }
+
+  console.log(`\n[${slug}] Processing service (locale: ${locale})`);
+  console.log(`  Total blocks: ${blocks.length}`);
 
   for (let i = 0; i < blocks.length; i++) {
     const b = { ...blocks[i] };
+    console.log(`  Block ${i + 1}: type=${b.blockType}, order=${b.order}`);
+    
     if (b.blockType !== 'image') continue;
 
-    const n = blockNumber(b, i);
+    const n = blockNumber(i);
+    console.log(`    -> Looking for image number: ${n}`);
     const localPath = findImageForBlock({ slug, locale, number: n });
-    if (!localPath) continue;
+    if (!localPath) {
+      console.log(`    -> No local image found for number ${n}`);
+      continue;
+    }
+    console.log(`    -> Found local image: ${localPath}`);
 
     const currentFile = b.image || null;
     if (!isLocalNewerThanAttached(localPath, currentFile)) continue;
