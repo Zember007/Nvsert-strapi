@@ -42,13 +42,13 @@ jobs:
             fi
 
             # Install dependencies
-            # npm install  # Or yarn install, or pnpm install
+            npm install  # Or yarn install, or pnpm install
 
             # Build the Next.js application
-            # npm run build
+            npm run build
 
             # Restart the application (using pm2 or your chosen method)
-            # pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command
+            pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command
            
             # Затем запустим синхронизацию
             npm run sync:service-content
