@@ -46,27 +46,16 @@ export default factories.createCoreController('api::service.service', ({ strapi 
 
     async findBySlug(ctx) {
       const { slug } = ctx.params;
-      
-      const entity = await strapi.entityService.findMany('api::service.service', {
-        filters: { slug },
-        populate: {
-          category: true,
-          img: true,
-          documents: true,
-          content: {
-            populate: {
-              image: true
-            }
-          },
-          cta: true,
-          seo: true
-        }
+  
+      const entity = await strapi.db.query('api::service.service').findOne({
+        where: { slug },
+        populate: ['*'],
       });
-
-      if (!entity || entity.length === 0) {
+  
+      if (!entity) {
         return ctx.notFound('Service not found');
       }
-
-      return { data: entity[0] };
+  
+      return entity;
     }
   }));
