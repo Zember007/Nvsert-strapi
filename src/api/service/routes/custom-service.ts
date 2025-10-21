@@ -5,7 +5,7 @@ export default {
         path: '/services/slug/:slug',
         handler: 'service.findBySlug',
         config: {
-          auth: false, // можно включить при необходимости
+          auth: false,
         },
       },
     ],
