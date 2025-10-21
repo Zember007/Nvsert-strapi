@@ -49,7 +49,18 @@ export default factories.createCoreController('api::service.service', ({ strapi 
   
       const entity = await strapi.db.query('api::service.service').findOne({
         where: { slug },
-        populate: ['*'],
+        populate: {
+          category: true,
+          img: true,
+          documents: true,
+          content: {
+            populate: {
+              image: true
+            }
+          },
+          cta: true,
+          seo: true
+        },
       });
   
       if (!entity) {
