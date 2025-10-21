@@ -11,7 +11,9 @@ export default factories.createCoreController('api::about.about', ({ strapi }) =
       populate: {
         content: {
           populate: {
-            image: true
+            image: true,
+            cta: true,
+            seo: true
           }
         },
         seo: true
@@ -26,7 +28,9 @@ export default factories.createCoreController('api::about.about', ({ strapi }) =
       populate: {
         content: {
           populate: {
-            image: true
+            image: true,
+            cta: true,
+            seo: true
           }
         },
         seo: true
