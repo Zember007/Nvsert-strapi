@@ -4,4 +4,13 @@
 
 import { factories } from '@strapi/strapi'
 
-export default factories.createCoreController('api::feedback.feedback' as any);
+export default factories.createCoreController('api::feedback.feedback', ({ strapi }) => ({
+    async find(ctx) {
+      ctx.query = {
+        ...ctx.query,
+        sort: ['order:asc'],
+        populate: ['*'],
+      };
+      return await super.find(ctx);
+    }
+  }));
