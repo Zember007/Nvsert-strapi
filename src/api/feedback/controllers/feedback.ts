@@ -11,7 +11,8 @@ export default factories.createCoreController('api::feedback.feedback', ({ strap
             sort: ['order:asc'],
             populate: {
                 category: true,
-                img: true
+                photo: true,
+                content: true,
             },
             pagination: {
                 page: 1,
