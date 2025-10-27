@@ -9,7 +9,10 @@ export default factories.createCoreController('api::feedback.feedback', ({ strap
         ctx.query = {
             ...ctx.query,
             sort: ['order:asc'],
-            populate: ['*'],
+            populate: {
+                category: true,
+                img: true
+            },
             pagination: {
                 page: 1,
                 pageSize: 1000
