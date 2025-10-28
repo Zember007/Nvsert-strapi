@@ -11,11 +11,10 @@ export default factories.createCoreController('api::about.about', ({ strapi }) =
       populate: {
         content: {
           populate: {
-            image: true,
-            cta: true,
-            seo: true
+            image: true
           }
         },
+        cta: true,
         seo: true
       }
     };
@@ -28,11 +27,10 @@ export default factories.createCoreController('api::about.about', ({ strapi }) =
       populate: {
         content: {
           populate: {
-            image: true,
-            cta: true,
-            seo: true
+            image: true
           }
         },
+        cta: true,
         seo: true
       }
     };
