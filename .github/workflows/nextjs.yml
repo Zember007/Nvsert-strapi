@@ -51,4 +51,4 @@ jobs:
             pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command
            
             # Затем запустим синхронизацию
-            # npm run sync:service-content
+            npm run sync:service-content
