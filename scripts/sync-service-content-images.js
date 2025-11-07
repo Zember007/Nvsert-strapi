@@ -88,7 +88,7 @@ function isLocalNewerThanAttached(localFilePath, attachedFile) {
   }
 }
 
-function blockNumber( index) {
+function blockNumber(index) {
   const n = index + 1;
   return Math.max(1, n);
 }
@@ -114,8 +114,14 @@ async function processServiceDocument(doc, forceUpdate = false) {
 
     const n = blockNumber(i);
     console.log(`    -> Looking for image number: ${n}`);
-    const numberPhoto = n === 2 ? 3 : n === 3 ? 4 : n === 1 ? 1 : null;
-    const localPath = numberPhoto ? findImageForBlock({ slug, locale, number: numberPhoto }) : null;
+
+    if(n !== 1 || n !== 3 || n !== 4) {
+      continue;
+    }
+
+    const numberPhoto = n === 3 ? 2 : n === 4 ? 3 : n;
+
+    const localPath = findImageForBlock({ slug, locale, number: n });
     if (!localPath) {
       console.log(`    -> No local image found for number ${n}`);
       continue;
@@ -124,7 +130,7 @@ async function processServiceDocument(doc, forceUpdate = false) {
 
     const currentFile = b.image || null;
     console.log(`    -> Current attached file:`, currentFile ? `ID: ${currentFile.id}, updated: ${currentFile.updatedAt}` : 'none');
-    
+
     if (!forceUpdate) {
       const isNewer = isLocalNewerThanAttached(localPath, currentFile);
       console.log(`    -> Is local file newer? ${isNewer}`);
@@ -161,16 +167,16 @@ async function processServiceDocument(doc, forceUpdate = false) {
       hasImage: !!b.image,
       imageId: b.image?.id || b.image
     })), null, 2));
-    
+
     // Update content and publish
     await strapi.entityService.update('api::service.service', doc.id, {
-      data: { 
+      data: {
         content: blocks,
         publishedAt: new Date() // Publish the service
       },
     });
     console.log(`  -> ✅ Updated and published successfully`);
-    
+
     // Verify update
     const updated = await strapi.entityService.findOne('api::service.service', doc.id, {
       populate: { content: { populate: ['image'] } },
