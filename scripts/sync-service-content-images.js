@@ -121,7 +121,7 @@ async function processServiceDocument(doc, forceUpdate = false) {
 
     const numberPhoto = n === 3 ? 2 : n === 4 ? 3 : n;
 
-    const localPath = findImageForBlock({ slug, locale, number: n });
+    const localPath = findImageForBlock({ slug, locale, number: numberPhoto });
     if (!localPath) {
       console.log(`    -> No local image found for number ${n}`);
       continue;
