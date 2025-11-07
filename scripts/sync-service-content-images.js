@@ -112,18 +112,20 @@ async function processServiceDocument(doc, forceUpdate = false) {
     console.log(`  Block ${i + 1}: type=${b.blockType}, order=${b.order}`);
 
     const n = blockNumber(i);
-    console.log(`-> Looking for image number: ${n}`);
-
+    
+    // Обрабатываем только блоки 1, 3, 4
     if(n !== 1 && n !== 3 && n !== 4) {
       console.log(`    -> Skipping block ${n} - not a photo block`);
       continue;
     }
 
-    const numberPhoto = n === 3 ? 2 : n === 4 ? 3 : n;
+    // Маппинг: блок 1 → фото 1, блок 3 → фото 2, блок 4 → фото 3
+    const numberPhoto = n === 1 ? 1 : n === 3 ? 2 : 3;
+    console.log(`    -> Block ${n} → looking for photo number: ${numberPhoto}`);
 
     const localPath = findImageForBlock({ slug, locale, number: numberPhoto });
     if (!localPath) {
-      console.log(`    -> No local image found for number ${n}`);
+      console.log(`    -> No local image found for photo number ${numberPhoto} (block ${n})`);
       continue;
     }
     console.log(`    -> Found local image: ${localPath}`);
