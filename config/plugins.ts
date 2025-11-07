@@ -12,6 +12,15 @@ export default () => ({
     },
   },
   
+  upload: {
+    config: {
+      breakpoints: {
+        large: 630,  // ≈ 630 × 300
+        medium: 560, // ≈ 560 × 267
+        small: 280,  // ≈ 280 × 134
+      },
+    },
+  },
   // SEO плагин
   seo: {
     enabled: true,
