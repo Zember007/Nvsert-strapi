@@ -111,11 +111,11 @@ async function processServiceDocument(doc, forceUpdate = false) {
     const b = { ...blocks[i] };
     console.log(`  Block ${i + 1}: type=${b.blockType}, order=${b.order}`);
 
-
     const n = blockNumber(i);
-    console.log(`    -> Looking for image number: ${n}`);
+    console.log(`-> Looking for image number: ${n}`);
 
-    if(n !== 1 || n !== 3 || n !== 4) {
+    if(n !== 1 && n !== 3 && n !== 4) {
+      console.log(`    -> Skipping block ${n} - not a photo block`);
       continue;
     }
 
