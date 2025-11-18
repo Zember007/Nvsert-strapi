@@ -15,8 +15,8 @@ export default () => ({
   upload: {
     config: {
       breakpoints: {
-        large: 630,  // ≈ 630 × 300
-        medium: 560, // ≈ 560 × 267
+        large: 560, // ≈ 560 × 267
+        medium: 320, // ≈ 280 × 134
         small: 280,  // ≈ 280 × 134
       },
     },
