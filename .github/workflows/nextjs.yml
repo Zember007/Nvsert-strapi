@@ -50,7 +50,8 @@ jobs:
             # Restart the application (using pm2 or your chosen method)
             pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command
 
-            npm run seed:okpd2
+           
            
             # Затем запустим синхронизацию
+            # npm run seed:okpd2
             # npm run sync:service-content
