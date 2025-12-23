@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "okpd2s",
+  "info": {
+    "singularName": "okpd2",
+    "pluralName": "okpd2s",
+    "displayName": "OKPD2",
+    "description": "OKPD2 классификатор (code/name/level) с деревом parent/children"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "level": {
+      "type": "integer",
+      "required": true
+    },
+    "hasChildren": {
+      "type": "boolean",
+      "default": false
+    },
+    "parentCode": {
+      "type": "string"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::okpd2.okpd2",
+      "inversedBy": "children"
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::okpd2.okpd2",
+      "mappedBy": "parent"
+    }
+  }
+}
+
+

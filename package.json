@@ -10,6 +10,7 @@
     "dev": "strapi develop",
     "develop": "strapi develop",
     "seed:example": "node ./scripts/seed.js",
+    "seed:okpd2": "node ./scripts/seed-okpd2.js",
     "sync:service-content": "node ./scripts/sync-service-content-images.js --force",
     "start": "strapi start",
     "strapi": "strapi",
