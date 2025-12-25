@@ -8,6 +8,11 @@ export interface SharedContentBlock extends Struct.ComponentSchema {
     icon: 'layer-group';
   };
   attributes: {
+    blockType: Schema.Attribute.Enumeration<
+      ['paragraph', 'image', 'rich-text']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'paragraph'>;
     heading: Schema.Attribute.String;
     headingLevel: Schema.Attribute.Enumeration<
       ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
@@ -24,15 +29,19 @@ export interface SharedContentBlock extends Struct.ComponentSchema {
 export interface SharedCta extends Struct.ComponentSchema {
   collectionName: 'components_shared_ctas';
   info: {
-    displayName: 'Cta';
-    icon: 'link';
+    description: 'Call to action component';
+    displayName: 'CTA';
+    icon: 'cursor';
+    name: 'Cta';
   };
-
   attributes: {
-    title: Schema.Attribute.String;
-    description: Schema.Attribute.String;
+    description: Schema.Attribute.String & Schema.Attribute.Required;
+    style: Schema.Attribute.Enumeration<['primary', 'secondary', 'outline']> &
+      Schema.Attribute.DefaultTo<'primary'>;
+    text: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
+
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
