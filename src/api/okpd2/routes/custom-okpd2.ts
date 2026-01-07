@@ -8,6 +8,14 @@ export default {
         auth: false,
       },
     },
+    {
+      method: 'GET',
+      path: '/okpd2s/section/:section',
+      handler: 'okpd2.findSection',
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
 
