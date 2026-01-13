@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_contacts_requisites_sections",
+  "info": {
+    "displayName": "Requisites section",
+    "icon": "money-check",
+    "description": "Секция «Реквизиты» (контент внутри спойлера)"
+  },
+  "options": {},
+  "attributes": {
+    "spoilerTitle": {
+      "type": "string",
+      "required": true
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
+    },
+    "downloadButtonLabel": {
+      "type": "string",
+      "required": true
+    },
+    "pdfUrl": {
+      "type": "string",
+      "required": true
+    },
+    "legal": {
+      "type": "component",
+      "repeatable": false,
+      "component": "contacts.legal-details",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

@@ -1,0 +1,51 @@
+{
+  "kind": "singleType",
+  "collectionName": "contacts_pages",
+  "info": {
+    "singularName": "contacts-page",
+    "pluralName": "contacts-pages",
+    "displayName": "Contacts page",
+    "description": "Страница «Контакты» с офисами, реквизитами и SEO"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "intro": {
+      "type": "richtext",
+      "required": true
+    },
+    "offices": {
+      "type": "component",
+      "repeatable": true,
+      "component": "contacts.office"
+    },
+    "connectSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "contacts.connect-section",
+      "required": true
+    },
+    "requisitesSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "contacts.requisites-section",
+      "required": true
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}
+

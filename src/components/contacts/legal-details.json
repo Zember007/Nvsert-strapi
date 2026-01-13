@@ -1,0 +1,55 @@
+{
+  "collectionName": "components_contacts_legal_details",
+  "info": {
+    "displayName": "Legal details",
+    "icon": "file-invoice",
+    "description": "Юридические/банковские реквизиты"
+  },
+  "options": {},
+  "attributes": {
+    "fullName": {
+      "type": "string",
+      "required": true
+    },
+    "shortName": {
+      "type": "string"
+    },
+    "inn": {
+      "type": "string"
+    },
+    "kpp": {
+      "type": "string"
+    },
+    "ogrn": {
+      "type": "string"
+    },
+    "legalAddress": {
+      "type": "string"
+    },
+    "director": {
+      "type": "string"
+    },
+    "chiefAccountant": {
+      "type": "string"
+    },
+    "accountNumber": {
+      "type": "string"
+    },
+    "bank": {
+      "type": "string"
+    },
+    "bik": {
+      "type": "string"
+    },
+    "corrAccount": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    }
+  }
+}
+

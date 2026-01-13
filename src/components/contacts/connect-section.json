@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_contacts_connect_sections",
+  "info": {
+    "displayName": "Connect section",
+    "icon": "address-card",
+    "description": "Секция «Связаться с нами» (контент внутри спойлера)"
+  },
+  "options": {},
+  "attributes": {
+    "spoilerTitle": {
+      "type": "string",
+      "required": true
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
+    },
+    "consultationTitle": {
+      "type": "string",
+      "required": true
+    },
+    "consultationText": {
+      "type": "richtext",
+      "required": true
+    },
+    "consultationButtonLabel": {
+      "type": "string",
+      "required": true
+    },
+    "consultationImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "featureCards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "contacts.feature-card"
+    }
+  }
+}
+

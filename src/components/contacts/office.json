@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_contacts_offices",
+  "info": {
+    "displayName": "Office",
+    "icon": "map-marked-alt",
+    "description": "Офис/филиал для страницы контактов"
+  },
+  "options": {},
+  "attributes": {
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "phones": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.string-item"
+    },
+    "email": {
+      "type": "email"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+
