@@ -407,6 +407,49 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiContactsPageContactsPage extends Struct.SingleTypeSchema {
+  collectionName: 'contacts_pages';
+  info: {
+    description: '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u00AB\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B\u00BB \u0441 \u043E\u0444\u0438\u0441\u0430\u043C\u0438, \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u0430\u043C\u0438 \u0438 SEO';
+    displayName: 'Contacts page';
+    pluralName: 'contacts-pages';
+    singularName: 'contacts-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    connectSection: Schema.Attribute.Component<'contacts.connect-section', false> &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    intro: Schema.Attribute.RichText & Schema.Attribute.Required;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contacts-page.contacts-page'
+    >;
+    offices: Schema.Attribute.Component<'contacts.office', true>;
+    publishedAt: Schema.Attribute.DateTime;
+    requisitesSection: Schema.Attribute.Component<
+      'contacts.requisites-section',
+      false
+    > &
+      Schema.Attribute.Required;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -1339,6 +1382,7 @@ declare module '@strapi/strapi' {
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
+      'api::contacts-page.contacts-page': ApiContactsPageContactsPage;
       'api::faq.faq': ApiFaqFaq;
       'api::feedback-category.feedback-category': ApiFeedbackCategoryFeedbackCategory;
       'api::feedback.feedback': ApiFeedbackFeedback;

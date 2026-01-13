@@ -1,5 +1,97 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface ContactsOffice extends Struct.ComponentSchema {
+  collectionName: 'components_contacts_offices';
+  info: {
+    description: '\u041E\u0444\u0438\u0441/\u0444\u0438\u043B\u0438\u0430\u043B \u0434\u043B\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u043E\u0432';
+    displayName: 'Office';
+    icon: 'map-marked-alt';
+  };
+  attributes: {
+    address: Schema.Attribute.String & Schema.Attribute.Required;
+    city: Schema.Attribute.String & Schema.Attribute.Required;
+    email: Schema.Attribute.Email;
+    image: Schema.Attribute.Media<'images'>;
+    phones: Schema.Attribute.Component<'shared.string-item', true>;
+  };
+}
+
+export interface ContactsFeatureCard extends Struct.ComponentSchema {
+  collectionName: 'components_contacts_feature_cards';
+  info: {
+    description: '\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043F\u0440\u0435\u0438\u043C\u0443\u0449\u0435\u0441\u0442\u0432/\u0431\u043B\u043E\u043A\u043E\u0432 \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u043E\u0432';
+    displayName: 'Feature card';
+    icon: 'square';
+  };
+  attributes: {
+    text: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ContactsLegalDetails extends Struct.ComponentSchema {
+  collectionName: 'components_contacts_legal_details';
+  info: {
+    description: '\u042E\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043A\u0438\u0435/\u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0435 \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B';
+    displayName: 'Legal details';
+    icon: 'file-invoice';
+  };
+  attributes: {
+    accountNumber: Schema.Attribute.String;
+    bank: Schema.Attribute.String;
+    bik: Schema.Attribute.String;
+    chiefAccountant: Schema.Attribute.String;
+    corrAccount: Schema.Attribute.String;
+    director: Schema.Attribute.String;
+    email: Schema.Attribute.Email;
+    fullName: Schema.Attribute.String & Schema.Attribute.Required;
+    inn: Schema.Attribute.String;
+    kpp: Schema.Attribute.String;
+    legalAddress: Schema.Attribute.String;
+    ogrn: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    shortName: Schema.Attribute.String;
+  };
+}
+
+export interface ContactsConnectSection extends Struct.ComponentSchema {
+  collectionName: 'components_contacts_connect_sections';
+  info: {
+    description: '\u0421\u0435\u043A\u0446\u0438\u044F \u00AB\u0421\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F \u0441 \u043D\u0430\u043C\u0438\u00BB (\u043A\u043E\u043D\u0442\u0435\u043D\u0442 \u0432\u043D\u0443\u0442\u0440\u0438 \u0441\u043F\u043E\u0439\u043B\u0435\u0440\u0430)';
+    displayName: 'Connect section';
+    icon: 'address-card';
+  };
+  attributes: {
+    consultationButtonLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    consultationImage: Schema.Attribute.Media<'images'>;
+    consultationText: Schema.Attribute.RichText & Schema.Attribute.Required;
+    consultationTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.RichText & Schema.Attribute.Required;
+    featureCards: Schema.Attribute.Component<'contacts.feature-card', true>;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    spoilerTitle: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface ContactsRequisitesSection extends Struct.ComponentSchema {
+  collectionName: 'components_contacts_requisites_sections';
+  info: {
+    description: '\u0421\u0435\u043A\u0446\u0438\u044F \u00AB\u0420\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B\u00BB (\u043A\u043E\u043D\u0442\u0435\u043D\u0442 \u0432\u043D\u0443\u0442\u0440\u0438 \u0441\u043F\u043E\u0439\u043B\u0435\u0440\u0430)';
+    displayName: 'Requisites section';
+    icon: 'money-check';
+  };
+  attributes: {
+    description: Schema.Attribute.RichText & Schema.Attribute.Required;
+    downloadButtonLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
+    legal: Schema.Attribute.Component<'contacts.legal-details', false> &
+      Schema.Attribute.Required;
+    pdfUrl: Schema.Attribute.String & Schema.Attribute.Required;
+    spoilerTitle: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedContentBlock extends Struct.ComponentSchema {
   collectionName: 'components_shared_content_blocks';
   info: {
@@ -120,6 +212,11 @@ export interface SharedStringItem extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'contacts.connect-section': ContactsConnectSection;
+      'contacts.feature-card': ContactsFeatureCard;
+      'contacts.legal-details': ContactsLegalDetails;
+      'contacts.office': ContactsOffice;
+      'contacts.requisites-section': ContactsRequisitesSection;
       'shared.content-block': SharedContentBlock;
       'shared.cta': SharedCta;
       'shared.media': SharedMedia;
