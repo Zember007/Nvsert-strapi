@@ -11,6 +11,13 @@
     "draftAndPublish": false
   },
   "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
     "nodeId": {
       "type": "integer",
       "required": true,
@@ -21,15 +28,8 @@
       "required": true,
       "unique": true
     },
-    "code": {
-      "type": "string"
-    },
     "codeNorm": {
       "type": "string"
-    },
-    "name": {
-      "type": "string",
-      "required": true
     },
     "level": {
       "type": "integer",

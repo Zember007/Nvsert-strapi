@@ -49,8 +49,8 @@ jobs:
 
             # Restart the application (using pm2 or your chosen method)
             pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command
-            
-            npm run seed:tnved
+
+            # npm run seed:tnved
            
             # Затем запустим синхронизацию
             # npm run seed:okpd2
