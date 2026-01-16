@@ -126,9 +126,19 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
     const limit = Math.min(Math.max(safeInt((ctx.query as any)?.limit, 50), 1), 500);
     const codeQ = normalizeDigits(qRaw);
 
-    const or: any[] = [{ name: { $containsi: qRaw } }];
+    const or: any[] = [
+      { name: { $containsi: qRaw } },
+    ];
+
+    // Поиск по оригинальному коду
+    if (qRaw) {
+      or.push({ code: { $containsi: qRaw } });
+    }
+
+    // Поиск по нормализованному коду
     if (codeQ) {
-      or.unshift({ codeNorm: { $startsWith: codeQ } });
+      or.push({ codeNorm: { $startsWith: codeQ } });
+      or.push({ codeNorm: { $containsi: codeQ } });
     }
 
     const data = await strapi.db.query('api::tnved.tnved').findMany({
