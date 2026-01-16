@@ -4,7 +4,7 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreController('api::tnved-page.tnved-page', () => ({
+export default factories.createCoreController('api::tnved-page.tnved-page' as any, ({ strapi }) => ({
   async find(ctx) {
     ctx.query = {
       ...ctx.query,

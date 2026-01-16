@@ -4,5 +4,5 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreService('api::tnved-page.tnved-page');
+export default factories.createCoreService('api::tnved-page.tnved-page' as any);
 
