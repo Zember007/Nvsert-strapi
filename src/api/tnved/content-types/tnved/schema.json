@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tnveds",
+  "info": {
+    "singularName": "tnved",
+    "pluralName": "tnveds",
+    "displayName": "TNVED",
+    "description": "ТН ВЭД классификатор (дерево). Поддерживает узлы без кода через nodeId/path."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "nodeId": {
+      "type": "integer",
+      "required": true,
+      "unique": true
+    },
+    "path": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "code": {
+      "type": "string"
+    },
+    "codeNorm": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "level": {
+      "type": "integer",
+      "required": true
+    },
+    "chapter": {
+      "type": "string"
+    },
+    "hasChildren": {
+      "type": "boolean",
+      "default": false
+    },
+    "parentNodeId": {
+      "type": "integer"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tnved.tnved",
+      "inversedBy": "children"
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tnved.tnved",
+      "mappedBy": "parent"
+    }
+  }
+}
+

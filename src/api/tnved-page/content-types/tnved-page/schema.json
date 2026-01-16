@@ -1,0 +1,43 @@
+{
+  "kind": "singleType",
+  "collectionName": "tnved_pages",
+  "info": {
+    "singularName": "tnved-page",
+    "pluralName": "tnved-pages",
+    "displayName": "TNVED Page",
+    "description": "Страница ТН ВЭД: SEO и структурированный текстовый контент"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "content": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.content-block"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}
+
