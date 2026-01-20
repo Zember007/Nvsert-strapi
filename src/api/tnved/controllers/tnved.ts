@@ -115,7 +115,7 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
   async search(ctx) {
     const qRaw = String(((ctx.query as any)?.q ?? (ctx.query as any)?.query ?? '')).trim();
 
-    console.log('[TNVED Search] Query:', qRaw);
+    strapi?.log?.debug?.(`[TNVED Search] Query: ${qRaw}`);
 
     if (!qRaw) {
       return {
@@ -129,16 +129,19 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
     const limit = Math.min(Math.max(safeInt((ctx.query as any)?.limit, 50), 1), 500);
     const codeQ = normalizeDigits(qRaw);
 
-    console.log('[TNVED Search] Normalized code:', codeQ);
+    strapi?.log?.debug?.(`[TNVED Search] Normalized code: ${codeQ}`);
 
     const or: any[] = [];
 
     // Поиск по названию
     or.push({ name: { $containsi: qRaw } });
 
-    // Поиск по оригинальному коду (если есть точки или другие символы)
-    if (qRaw !== codeQ && qRaw.length > 0) {
-      or.push({ code: { $containsi: qRaw } });
+    // Поиск по коду (важно: в проде codeNorm может быть пустым/неполным, а code часто содержит точки)
+    // Поэтому добавляем code-поиск всегда (и для "01", и для "01.01").
+    or.push({ code: { $containsi: qRaw } });
+    // Для числовых запросов полезен и поиск по "очищенному" коду в строке с точками.
+    if (codeQ && codeQ !== qRaw) {
+      or.push({ code: { $containsi: codeQ } });
     }
 
     // Поиск по нормализованному коду (только цифры)
@@ -150,11 +153,11 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
       }
     }
 
-    console.log('[TNVED Search] Search conditions:', JSON.stringify(or, null, 2));
+    strapi?.log?.debug?.(`[TNVED Search] Search conditions: ${JSON.stringify(or)}`);
 
     // Если нет условий поиска, возвращаем пустой результат
     if (or.length === 0) {
-      console.log('[TNVED Search] No search conditions, returning empty result');
+      strapi?.log?.debug?.('[TNVED Search] No search conditions, returning empty result');
       return {
         data: [],
         meta: {
@@ -169,7 +172,7 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
       orderBy: { codeNorm: 'asc' },
     });
 
-    console.log('[TNVED Search] Found results:', data.length);
+    strapi?.log?.debug?.(`[TNVED Search] Found results: ${data.length}`);
 
     return {
       data,
