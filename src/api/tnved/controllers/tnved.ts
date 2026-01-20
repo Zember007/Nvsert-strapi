@@ -13,11 +13,43 @@ function safeInt(raw: any, fallback: number) {
   return Number.isFinite(n) ? n : fallback;
 }
 
+async function addAncestorsByNodeId(strapi: any, byNodeId: Map<number, any>, startParentNodeIds: number[]) {
+  let queue = [...new Set(startParentNodeIds)].filter((x) => Number.isFinite(x));
+
+  while (queue.length) {
+    const batch = queue.splice(0, 500);
+    const parents = await strapi.db.query('api::tnved.tnved').findMany({
+      where: { nodeId: { $in: batch } },
+    });
+
+    const next: number[] = [];
+    for (const p of parents || []) {
+      const pNodeId = Number((p as any)?.nodeId);
+      if (!Number.isFinite(pNodeId)) continue;
+      if (!byNodeId.has(pNodeId)) byNodeId.set(pNodeId, p);
+
+      const pp = (p as any)?.parentNodeId;
+      const ppNum = typeof pp === 'number' ? pp : pp == null ? null : Number(pp);
+      if (ppNum !== null && Number.isFinite(ppNum) && !byNodeId.has(ppNum)) {
+        next.push(ppNum);
+      }
+    }
+
+    queue = [...new Set([...queue, ...next])];
+  }
+}
+
 export default factories.createCoreController('api::tnved.tnved' as any, ({ strapi }) => ({
   async findWithPage(ctx) {
     const locale = (ctx.query as any)?.locale;
 
-    const [chapters, subtree01, page] = await Promise.all([
+    // Важно: "первые родители" (level=1) часто без кода/codeNorm, но нужны фронту,
+    // чтобы восстановить структуру по parentNodeId (и показать "РАЗДЕЛ ...").
+    const [sections, chapters, subtree01, page] = await Promise.all([
+      strapi.db.query('api::tnved.tnved').findMany({
+        where: { level: 1 },
+        orderBy: { path: 'asc' },
+      }),
       strapi.db.query('api::tnved.tnved').findMany({
         where: {
           level: 2,
@@ -43,7 +75,14 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
       }),
     ]);
 
-    const data = [...(chapters || []), ...(subtree01 || [])];
+    // Дедуп по nodeId (код может быть пустым у секций)
+    const byNodeId = new Map<number, any>();
+    for (const it of [...(sections || []), ...(chapters || []), ...(subtree01 || [])]) {
+      const nodeId = Number((it as any)?.nodeId);
+      if (!Number.isFinite(nodeId)) continue;
+      if (!byNodeId.has(nodeId)) byNodeId.set(nodeId, it);
+    }
+    const data = [...byNodeId.values()];
 
     return {
       data,
@@ -71,14 +110,33 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
       orderBy: { path: 'asc' },
     });
 
+    // Подтягиваем родителей (включая узлы без кода) для корректной структуры на фронте.
+    const byNodeId = new Map<number, any>();
+    for (const it of data || []) {
+      const nodeId = Number((it as any)?.nodeId);
+      if (Number.isFinite(nodeId)) byNodeId.set(nodeId, it);
+    }
+
+    const parentIds: number[] = [];
+    for (const it of data || []) {
+      const p = (it as any)?.parentNodeId;
+      const pNum = typeof p === 'number' ? p : p == null ? null : Number(p);
+      if (pNum !== null && Number.isFinite(pNum) && !byNodeId.has(pNum)) parentIds.push(pNum);
+    }
+    if (parentIds.length) {
+      await addAncestorsByNodeId(strapi, byNodeId, parentIds);
+    }
+
+    const merged = [...byNodeId.values()].sort((a, b) => String(a?.path ?? '').localeCompare(String(b?.path ?? '')));
+
     return {
-      data,
+      data: merged,
       meta: {
         pagination: {
           page: 1,
-          pageSize: data.length,
+          pageSize: merged.length,
           pageCount: 1,
-          total: data.length,
+          total: merged.length,
         },
       },
     };
@@ -98,14 +156,31 @@ export default factories.createCoreController('api::tnved.tnved' as any, ({ stra
       orderBy: { path: 'asc' },
     });
 
+    // Для breadcrumbs/иерархии полезно иметь предков root (у верхних родителей может не быть кода).
+    const byNodeId = new Map<number, any>();
+    for (const it of data || []) {
+      const nodeId = Number((it as any)?.nodeId);
+      if (Number.isFinite(nodeId)) byNodeId.set(nodeId, it);
+    }
+    const rootNodeId = Number((root as any)?.nodeId);
+    if (Number.isFinite(rootNodeId)) byNodeId.set(rootNodeId, root);
+
+    const p0 = (root as any)?.parentNodeId;
+    const p0Num = typeof p0 === 'number' ? p0 : p0 == null ? null : Number(p0);
+    if (p0Num !== null && Number.isFinite(p0Num) && !byNodeId.has(p0Num)) {
+      await addAncestorsByNodeId(strapi, byNodeId, [p0Num]);
+    }
+
+    const merged = [...byNodeId.values()].sort((a, b) => String(a?.path ?? '').localeCompare(String(b?.path ?? '')));
+
     return {
-      data,
+      data: merged,
       meta: {
         pagination: {
           page: 1,
-          pageSize: data.length,
+          pageSize: merged.length,
           pageCount: 1,
-          total: data.length,
+          total: merged.length,
         },
       },
       root,
