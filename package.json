@@ -9,6 +9,8 @@
     "deploy": "strapi deploy",
     "dev": "strapi develop",
     "develop": "strapi develop",
+    "i18n:clone-en-to-ru:dry": "node ./scripts/clone-en-to-ru.js --dry",
+    "i18n:clone-en-to-ru": "node ./scripts/clone-en-to-ru.js --run",
     "seed:example": "node ./scripts/seed.js",
     "seed:okpd2": "node ./scripts/seed-okpd2.js",
     "seed:tnved": "node ./scripts/seed-tnved.js",

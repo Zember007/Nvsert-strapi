@@ -5,6 +5,11 @@ on:
     branches:
       - main  # Or your main branch name
   workflow_dispatch: # Allows manual triggering
+    inputs:
+      run_i18n_migration:
+        description: 'Run Strapi i18n migration (move en -> ru + recreate en with -en UID suffix)'
+        required: false
+        default: 'false'
 
 jobs:
   deploy:
@@ -46,6 +51,16 @@ jobs:
 
             # Build the Next.js application
             npm run build
+
+            # Optional: i18n migration (safe to run manually; not executed on regular pushes)
+            if [ "${{ github.event.inputs.run_i18n_migration }}" = "true" ]; then
+              echo "Running Strapi i18n migration (dry-run)..."
+              npm run i18n:clone-en-to-ru:dry || true
+              echo "Running Strapi i18n migration (apply)..."
+              npm run i18n:clone-en-to-ru
+            else
+              echo "Skipping i18n migration (run_i18n_migration=false)"
+            fi
 
             # Restart the application (using pm2 or your chosen method)
             pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command

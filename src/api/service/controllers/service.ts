@@ -46,22 +46,36 @@ export default factories.createCoreController('api::service.service', ({ strapi 
 
     async findBySlug(ctx) {
       const { slug } = ctx.params;
+      const requestedLocale = String((ctx.query as any)?.locale || '').trim() || null;
+
+      const candidates = [
+        requestedLocale,
+        'ru',
+        'en',
+      ].filter(Boolean) as string[];
+
+      const uniqueLocales = [...new Set(candidates)];
+      const whereBase: any = { slug };
   
-      const entity = await strapi.db.query('api::service.service').findOne({
-        where: { slug },
-        populate: {
-          category: true,
-          img: true,
-          documents: true,
-          content: {
-            populate: {
-              image: true
-            }
+      let entity: any = null;
+      for (const locale of uniqueLocales) {
+        entity = await strapi.db.query('api::service.service').findOne({
+          where: { ...whereBase, locale, publishedAt: { $notNull: true } },
+          populate: {
+            category: true,
+            img: true,
+            documents: true,
+            content: {
+              populate: {
+                image: true
+              }
+            },
+            cta: true,
+            seo: true
           },
-          cta: true,
-          seo: true
-        },
-      });
+        });
+        if (entity) break;
+      }
   
       if (!entity) {
         return ctx.notFound('Service not found');
