@@ -7,6 +7,8 @@
  * Usage:
  *   node ./scripts/clone-en-to-ru.js --dry
  *   node ./scripts/clone-en-to-ru.js --run
+ *   node ./scripts/clone-en-to-ru.js --run --no-include-plugins
+ *   node ./scripts/clone-en-to-ru.js --run --depth 6
  *
  * Notes:
  * - Requires Strapi app context (same approach as other scripts in this repo).
@@ -17,15 +19,18 @@ const SOURCE_LOCALE = 'en';
 const TARGET_LOCALE = 'ru';
 
 function parseArgs(argv) {
-  const out = { dry: false, run: false, limit: 100, start: 0, strategy: 'move' };
+  const out = { dry: false, run: false, limit: 100, start: 0, strategy: 'move', includePlugins: true, depth: 6 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--dry') out.dry = true;
     if (a === '--run') out.run = true;
     if (a === '--clone') out.strategy = 'clone';
     if (a === '--move') out.strategy = 'move';
+    if (a === '--include-plugins') out.includePlugins = true;
+    if (a === '--no-include-plugins') out.includePlugins = false;
     if (a === '--limit') out.limit = Number(argv[++i] || out.limit);
     if (a === '--start') out.start = Number(argv[++i] || out.start);
+    if (a === '--depth') out.depth = Number(argv[++i] || out.depth);
   }
   if (!out.dry && !out.run) out.dry = true; // safe default
   return out;
@@ -124,10 +129,15 @@ async function main() {
 
   try {
     const contentTypes = Object.entries(strapi.contentTypes || {})
-      .filter(([uid, ct]) => uid.startsWith('api::') && ct?.pluginOptions?.i18n?.localized)
+      .filter(([uid, ct]) => {
+        const isApi = uid.startsWith('api::');
+        const isPlugin = uid.startsWith('plugin::');
+        const typeAllowed = isApi || (args.includePlugins && isPlugin);
+        return typeAllowed && ct?.pluginOptions?.i18n?.localized;
+      })
       .map(([uid, ct]) => ({ uid, ct }));
 
-    console.log(`[i18n] localized api types: ${contentTypes.length}`);
+    console.log(`[i18n] localized types (api +${args.includePlugins ? ' plugin' : ' no-plugin'}): ${contentTypes.length}`);
     for (const { uid } of contentTypes) console.log(`  - ${uid}`);
 
     let totalToCreate = 0;
@@ -143,7 +153,8 @@ async function main() {
         return comp?.attributes || null;
       };
 
-      const populate = buildPopulateFromAttributes(getComponentAttributes, ct.attributes, 3);
+      const depth = Number.isFinite(args.depth) && args.depth > 0 ? args.depth : 6;
+      const populate = buildPopulateFromAttributes(getComponentAttributes, ct.attributes, depth);
       const populateWithLoc = { ...(populate || {}), localizations: true };
 
       console.log(`\n[${uid}] kind=${kind}`);
