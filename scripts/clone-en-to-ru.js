@@ -161,7 +161,8 @@ async function main() {
 
       if (kind === 'singleType') {
         const existingTargetArr = await strapi.entityService.findMany(uid, {
-          filters: { locale: TARGET_LOCALE },
+          // i18n locale is a top-level param for entityService queries (not a filter)
+          locale: TARGET_LOCALE,
           limit: 1,
         });
         const existingTarget = Array.isArray(existingTargetArr) ? existingTargetArr[0] : null;
@@ -172,7 +173,8 @@ async function main() {
         }
 
         const sourceArr = await strapi.entityService.findMany(uid, {
-          filters: { locale: SOURCE_LOCALE },
+          // i18n locale is a top-level param for entityService queries (not a filter)
+          locale: SOURCE_LOCALE,
           populate: populateWithLoc,
           limit: 1,
         });
@@ -230,7 +232,8 @@ async function main() {
       // eslint-disable-next-line no-constant-condition
       while (true) {
         const batch = await strapi.entityService.findMany(uid, {
-          filters: { locale: SOURCE_LOCALE },
+          // i18n locale is a top-level param for entityService queries (not a filter)
+          locale: SOURCE_LOCALE,
           populate: populateWithLoc,
           start,
           limit,
