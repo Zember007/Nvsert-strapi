@@ -17,6 +17,7 @@
     "sync:service-content": "node ./scripts/sync-service-content-images.js --force",
     "start": "strapi start",
     "strapi": "strapi",
+    "typecheck": "tsc --noEmit",
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
