@@ -68,14 +68,7 @@ jobs:
               git pull origin ${{ github.ref_name }}
             fi
 
-            export NVM_DIR="$HOME/.nvm"
-            if [ ! -d "$NVM_DIR" ]; then
-              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.6/install.sh | bash
-            fi
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-            nvm install 21
-            nvm use 21
+            
 
             # Install dependencies
             npm install  # Or yarn install, or pnpm install
