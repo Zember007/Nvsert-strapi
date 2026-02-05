@@ -16,6 +16,14 @@ export default {
         auth: false,
       },
     },
+    {
+      method: 'GET',
+      path: '/okpd2s/search',
+      handler: 'okpd2.search',
+      config: {
+        auth: false,
+      },
+    },
   ],
 };
 
