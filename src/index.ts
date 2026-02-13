@@ -7,7 +7,17 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register({ strapi }) {
+    // Фикс авторизации админки за reverse proxy (HTTPS → HTTP к Strapi):
+    // библиотека куки смотрит на socket.encrypted; без этого Secure-куки не ставятся.
+    strapi.server.use(async (ctx, next) => {
+      const proto = ctx.get('x-forwarded-proto');
+      if (ctx.req?.socket && proto === 'https') {
+        (ctx.req.socket as any).encrypted = true;
+      }
+      await next();
+    });
+  },
 
   /**
    * An asynchronous bootstrap function that runs before
