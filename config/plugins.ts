@@ -20,6 +20,7 @@ export default () => ({
         small: 280,  // ≈ 280 × 134
       },
     },
+    
   },
   // SEO плагин
   seo: {
