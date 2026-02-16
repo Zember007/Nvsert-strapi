@@ -1,12 +1,22 @@
-export default [
-  'strapi::logger',
+module.exports = [
   'strapi::errors',
+  {
+    name: 'strapi::session',
+    config: {
+      cookie: {
+        path: '/',
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax'
+      }
+    }
+  },
   'strapi::security',
   'strapi::cors',
   'strapi::poweredBy',
+  'strapi::logger',
   'strapi::query',
   'strapi::body',
-  'strapi::session',
   'strapi::favicon',
   'strapi::public',
 ];

@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '21'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
@@ -44,7 +44,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '21'  # Or your desired Node.js version
+          node-version: '20'  # Or your desired Node.js version
           cache: 'npm' # Or yarn or pnpm
 
       - name: SSH Deploy
@@ -68,7 +68,7 @@ jobs:
               git pull origin ${{ github.ref_name }}
             fi
 
-            
+            rm -rf .cache build dist
 
             # Install dependencies
             npm install  # Or yarn install, or pnpm install

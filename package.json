@@ -22,6 +22,7 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
     "@strapi/i18n": "^5.23.6",
     "@strapi/plugin-cloud": "5.17.0",
     "@strapi/plugin-seo": "^2.0.8",
