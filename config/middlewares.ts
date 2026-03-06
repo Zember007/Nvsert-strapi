@@ -17,7 +17,11 @@ module.exports = [
     config: {
       origin: [
         'https://test11.audiosector.ru',
-        'http://test11.audiosector.ru'
+        'http://test11.audiosector.ru',
+        'https://www.test11.audiosector.ru',
+        'http://www.test11.audiosector.ru',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
       ],
       headers: '*',
       credentials: true,

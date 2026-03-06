@@ -65,6 +65,7 @@ jobs:
             if [ ! -d ".git" ]; then
               git clone --depth 1 -b ${{ github.ref_name }}  https://github.com/${{ github.repository }}.git .
             else
+              git stash
               git pull origin ${{ github.ref_name }}
             fi
 
