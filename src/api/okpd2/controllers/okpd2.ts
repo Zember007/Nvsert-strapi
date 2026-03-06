@@ -13,6 +13,14 @@ function safeInt(raw: any, fallback: number) {
   return Number.isFinite(n) ? n : fallback;
 }
 
+function parseBoolean(raw: any, fallback: boolean) {
+  if (raw === undefined || raw === null || raw === '') return fallback;
+  const normalized = String(raw).trim().toLowerCase();
+  if (['1', 'true', 'yes', 'on'].includes(normalized)) return true;
+  if (['0', 'false', 'no', 'off'].includes(normalized)) return false;
+  return fallback;
+}
+
 // "011111" -> "01.11.11", "011" -> "01.1"
 function digitsToOkpdDotted(digits: string): string {
   const d = String(digits ?? '').replace(/\D/g, '');
@@ -29,18 +37,17 @@ function digitsToOkpdDotted(digits: string): string {
 
 export default factories.createCoreController('api::okpd2.okpd2' as any, ({ strapi }) => ({
   async findWithPage(ctx) {
-    // Custom: return only roots (all sections) + subtree for 01 on first load,
+    // Custom: return roots and optionally one initial section subtree,
     // and attach `page` alongside it (same contract as before: { data, meta, page }).
-    const locale = (ctx.query as any)?.locale;
+    const query = (ctx.query as any) || {};
+    const locale = query?.locale;
+    const includeInitialSection = parseBoolean(query?.includeInitialSection, true);
+    const initialSectionRaw = String(query?.initialSection ?? '01').trim();
+    const initialSection = /^\d{2}$/.test(initialSectionRaw) ? initialSectionRaw : '01';
 
-    const [roots, subtree01, page] = await Promise.all([
+    const tasks: Promise<any>[] = [
       strapi.db.query('api::okpd2.okpd2').findMany({
         where: { level: 1 },
-        orderBy: { code: 'asc' },
-      }),
-      strapi.db.query('api::okpd2.okpd2').findMany({
-        // Strapi query engine supports `$startsWith` for string fields.
-        where: { code: { $startsWith: '01' } },
         orderBy: { code: 'asc' },
       }),
       strapi.db.query('api::okpd2-page.okpd2-page').findOne({
@@ -55,10 +62,22 @@ export default factories.createCoreController('api::okpd2.okpd2' as any, ({ stra
           seo: true,
         },
       }),
-    ]);
+    ];
+
+    if (includeInitialSection) {
+      tasks.push(
+        strapi.db.query('api::okpd2.okpd2').findMany({
+          where: { code: { $startsWith: initialSection } },
+          orderBy: { code: 'asc' },
+        }),
+      );
+    }
+
+    const [roots, page, maybeSubtree] = await Promise.all(tasks);
+    const initialSubtree = includeInitialSection ? (maybeSubtree || []) : [];
 
     const byCode = new Map<string, any>();
-    for (const it of [...(roots || []), ...(subtree01 || [])]) {
+    for (const it of [...(roots || []), ...initialSubtree]) {
       const code = (it?.code ?? '').trim();
       if (!code) continue;
       if (!byCode.has(code)) byCode.set(code, it);
