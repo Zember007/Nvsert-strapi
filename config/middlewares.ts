@@ -26,6 +26,8 @@ export default ({ env }) => [
         'http://www.test11.audiosector.ru',
         'http://localhost:3000',
         'http://127.0.0.1:3000',
+        'http://test11-admin.audiosector.ru',
+
       ],
       headers: '*',
       credentials: true,

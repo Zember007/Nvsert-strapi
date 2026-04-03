@@ -69,14 +69,14 @@ jobs:
               git pull origin ${{ github.ref_name }}
             fi
 
-            nvm use 20
+            
 
-            rm -rf .cache build dist
+            rm -rf .cache build dist node_modules package-lock.json
+
+            nvm use 20
 
             # Install dependencies
             npm install  # Or yarn install, or pnpm install
-
-            npm rebuild better-sqlite3
 
             # Build the Next.js application
             npm run build
