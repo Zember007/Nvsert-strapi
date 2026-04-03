@@ -11,7 +11,9 @@ export default {
     // Фикс авторизации админки за reverse proxy (HTTPS → HTTP к Strapi):
     // библиотека куки смотрит на socket.encrypted; без этого Secure-куки не ставятся.
     strapi.server.use(async (ctx, next) => {
-      const proto = ctx.get('x-forwarded-proto');
+      // Несколько прокси могут склеить протоколы: "https, http" — берём первый сегмент.
+      const raw = ctx.get('x-forwarded-proto');
+      const proto = raw.split(',')[0]?.trim().toLowerCase();
       if (ctx.req?.socket && proto === 'https') {
         (ctx.req.socket as any).encrypted = true;
       }

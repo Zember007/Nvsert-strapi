@@ -1,18 +1,22 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
-export interface ContactsOffice extends Struct.ComponentSchema {
-  collectionName: 'components_contacts_offices';
+export interface ContactsConnectSection extends Struct.ComponentSchema {
+  collectionName: 'components_contacts_connect_sections';
   info: {
-    description: '\u041E\u0444\u0438\u0441/\u0444\u0438\u043B\u0438\u0430\u043B \u0434\u043B\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u043E\u0432';
-    displayName: 'Office';
-    icon: 'map-marked-alt';
+    description: '\u0421\u0435\u043A\u0446\u0438\u044F \u00AB\u0421\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F \u0441 \u043D\u0430\u043C\u0438\u00BB (\u043A\u043E\u043D\u0442\u0435\u043D\u0442 \u0432\u043D\u0443\u0442\u0440\u0438 \u0441\u043F\u043E\u0439\u043B\u0435\u0440\u0430)';
+    displayName: 'Connect section';
+    icon: 'address-card';
   };
   attributes: {
-    address: Schema.Attribute.String & Schema.Attribute.Required;
-    city: Schema.Attribute.String & Schema.Attribute.Required;
-    email: Schema.Attribute.Email;
-    image: Schema.Attribute.Media<'images'>;
-    phones: Schema.Attribute.Component<'shared.string-item', true>;
+    consultationButtonLabel: Schema.Attribute.String &
+      Schema.Attribute.Required;
+    consultationImage: Schema.Attribute.Media<'images'>;
+    consultationText: Schema.Attribute.RichText & Schema.Attribute.Required;
+    consultationTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.RichText & Schema.Attribute.Required;
+    featureCards: Schema.Attribute.Component<'contacts.feature-card', true>;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    spoilerTitle: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -54,22 +58,19 @@ export interface ContactsLegalDetails extends Struct.ComponentSchema {
   };
 }
 
-export interface ContactsConnectSection extends Struct.ComponentSchema {
-  collectionName: 'components_contacts_connect_sections';
+export interface ContactsOffice extends Struct.ComponentSchema {
+  collectionName: 'components_contacts_offices';
   info: {
-    description: '\u0421\u0435\u043A\u0446\u0438\u044F \u00AB\u0421\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F \u0441 \u043D\u0430\u043C\u0438\u00BB (\u043A\u043E\u043D\u0442\u0435\u043D\u0442 \u0432\u043D\u0443\u0442\u0440\u0438 \u0441\u043F\u043E\u0439\u043B\u0435\u0440\u0430)';
-    displayName: 'Connect section';
-    icon: 'address-card';
+    description: '\u041E\u0444\u0438\u0441/\u0444\u0438\u043B\u0438\u0430\u043B \u0434\u043B\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u043E\u0432';
+    displayName: 'Office';
+    icon: 'map-marked-alt';
   };
   attributes: {
-    consultationButtonLabel: Schema.Attribute.String & Schema.Attribute.Required;
-    consultationImage: Schema.Attribute.Media<'images'>;
-    consultationText: Schema.Attribute.RichText & Schema.Attribute.Required;
-    consultationTitle: Schema.Attribute.String & Schema.Attribute.Required;
-    description: Schema.Attribute.RichText & Schema.Attribute.Required;
-    featureCards: Schema.Attribute.Component<'contacts.feature-card', true>;
-    heading: Schema.Attribute.String & Schema.Attribute.Required;
-    spoilerTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    address: Schema.Attribute.String & Schema.Attribute.Required;
+    city: Schema.Attribute.String & Schema.Attribute.Required;
+    email: Schema.Attribute.Email;
+    image: Schema.Attribute.Media<'images'>;
+    phones: Schema.Attribute.Component<'shared.string-item', true>;
   };
 }
 

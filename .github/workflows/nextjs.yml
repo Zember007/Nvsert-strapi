@@ -69,6 +69,8 @@ jobs:
               git pull origin ${{ github.ref_name }}
             fi
 
+            nvm use 20
+
             rm -rf .cache build dist
 
             # Install dependencies
@@ -88,6 +90,8 @@ jobs:
             else
               echo "Skipping i18n migration (run_i18n_migration=false)"
             fi
+
+            
 
             # Restart the application (using pm2 or your chosen method)
             pm2 restart nvsert-strapi  # Replace with your pm2 app name, or your start command

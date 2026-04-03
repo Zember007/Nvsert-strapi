@@ -1,4 +1,4 @@
-module.exports = [
+export default ({ env }) => [
   'strapi::errors',
   {
     name: 'strapi::session',
@@ -6,10 +6,14 @@ module.exports = [
       cookie: {
         path: '/',
         httpOnly: true,
-        secure: false,
-        sameSite: 'lax'
-      }
-    }
+        // За HTTPS-прокси в production куки должны быть Secure; иначе браузер может не сохранять сессию.
+        secure: env.bool(
+          'SESSION_COOKIE_SECURE',
+          env('NODE_ENV', 'development') === 'production'
+        ),
+        sameSite: 'lax',
+      },
+    },
   },
   'strapi::security',
   {

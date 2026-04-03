@@ -407,49 +407,6 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiContactsPageContactsPage extends Struct.SingleTypeSchema {
-  collectionName: 'contacts_pages';
-  info: {
-    description: '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u00AB\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B\u00BB \u0441 \u043E\u0444\u0438\u0441\u0430\u043C\u0438, \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u0430\u043C\u0438 \u0438 SEO';
-    displayName: 'Contacts page';
-    pluralName: 'contacts-pages';
-    singularName: 'contacts-page';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    connectSection: Schema.Attribute.Component<'contacts.connect-section', false> &
-      Schema.Attribute.Required;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    intro: Schema.Attribute.RichText & Schema.Attribute.Required;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::contacts-page.contacts-page'
-    >;
-    offices: Schema.Attribute.Component<'contacts.office', true>;
-    publishedAt: Schema.Attribute.DateTime;
-    requisitesSection: Schema.Attribute.Component<
-      'contacts.requisites-section',
-      false
-    > &
-      Schema.Attribute.Required;
-    seo: Schema.Attribute.Component<'shared.seo', false>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -558,6 +515,52 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContactsPageContactsPage extends Struct.SingleTypeSchema {
+  collectionName: 'contacts_pages';
+  info: {
+    description: '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u00AB\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B\u00BB \u0441 \u043E\u0444\u0438\u0441\u0430\u043C\u0438, \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u0430\u043C\u0438 \u0438 SEO';
+    displayName: 'Contacts page';
+    pluralName: 'contacts-pages';
+    singularName: 'contacts-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    connectSection: Schema.Attribute.Component<
+      'contacts.connect-section',
+      false
+    > &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    intro: Schema.Attribute.RichText & Schema.Attribute.Required;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contacts-page.contacts-page'
+    >;
+    offices: Schema.Attribute.Component<'contacts.office', true>;
+    publishedAt: Schema.Attribute.DateTime;
+    requisitesSection: Schema.Attribute.Component<
+      'contacts.requisites-section',
+      false
+    > &
+      Schema.Attribute.Required;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -936,6 +939,83 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTnvedPageTnvedPage extends Struct.SingleTypeSchema {
+  collectionName: 'tnved_pages';
+  info: {
+    description: '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u0422\u041D \u0412\u042D\u0414: SEO \u0438 \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0442\u0435\u043A\u0441\u0442\u043E\u0432\u044B\u0439 \u043A\u043E\u043D\u0442\u0435\u043D\u0442';
+    displayName: 'TNVED Page';
+    pluralName: 'tnved-pages';
+    singularName: 'tnved-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    content: Schema.Attribute.Component<'shared.content-block', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.cta', false>;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tnved-page.tnved-page'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTnvedTnved extends Struct.CollectionTypeSchema {
+  collectionName: 'tnveds';
+  info: {
+    description: '\u0422\u041D \u0412\u042D\u0414 \u043A\u043B\u0430\u0441\u0441\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 (\u0434\u0435\u0440\u0435\u0432\u043E). \u041F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442 \u0443\u0437\u043B\u044B \u0431\u0435\u0437 \u043A\u043E\u0434\u0430 \u0447\u0435\u0440\u0435\u0437 nodeId/path.';
+    displayName: 'TNVED';
+    pluralName: 'tnveds';
+    singularName: 'tnved';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    chapter: Schema.Attribute.String;
+    children: Schema.Attribute.Relation<'oneToMany', 'api::tnved.tnved'>;
+    code: Schema.Attribute.String;
+    codeNorm: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    hasChildren: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    level: Schema.Attribute.Integer & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tnved.tnved'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    nodeId: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    parent: Schema.Attribute.Relation<'manyToOne', 'api::tnved.tnved'>;
+    parentNodeId: Schema.Attribute.Integer;
+    path: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1466,6 +1546,8 @@ declare module '@strapi/strapi' {
       'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy;
       'api::service-category.service-category': ApiServiceCategoryServiceCategory;
       'api::service.service': ApiServiceService;
+      'api::tnved-page.tnved-page': ApiTnvedPageTnvedPage;
+      'api::tnved.tnved': ApiTnvedTnved;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
