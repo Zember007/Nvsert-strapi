@@ -74,6 +74,8 @@ jobs:
             # Install dependencies
             npm install  # Or yarn install, or pnpm install
 
+            npm rebuild better-sqlite3
+
             # Build the Next.js application
             npm run build
 
