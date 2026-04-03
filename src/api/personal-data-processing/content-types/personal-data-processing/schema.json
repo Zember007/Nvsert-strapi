@@ -1,0 +1,37 @@
+{
+  "kind": "singleType",
+  "collectionName": "personal_data_processings",
+  "info": {
+    "singularName": "personal-data-processing",
+    "pluralName": "personal-data-processings",
+    "displayName": "Personal Data Processing",
+    "description": "Обработка персональных данных — страница с SEO и структурированным контентом"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "content": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.content-block"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

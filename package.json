@@ -12,6 +12,7 @@
     "i18n:clone-en-to-ru:dry": "node ./scripts/clone-en-to-ru.js --dry",
     "i18n:clone-en-to-ru": "node ./scripts/clone-en-to-ru.js --run",
     "seed:example": "node ./scripts/seed.js",
+    "seed:legal": "node ./scripts/seed-legal-pages.js",
     "seed:okpd2": "node ./scripts/seed-okpd2.js",
     "seed:tnved": "node ./scripts/seed-tnved.js",
     "sync:service-content": "node ./scripts/sync-service-content-images.js --force",

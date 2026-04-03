@@ -95,3 +95,4 @@ jobs:
             # Затем запустим синхронизацию
             # npm run seed:okpd2
             # npm run sync:service-content
+            npm run seed:legal
